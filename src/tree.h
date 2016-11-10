@@ -10,24 +10,32 @@ using namespace std;
 #include <string>
 
 class BSTNode {
-public:
+private:
     string key;
     string value;
     BSTNode *left;
     BSTNode *right;
 public:
+    BSTNode() : key("") , value(""), left(NULL), right(NULL) {};
     BSTNode(string key, string value);
-    string ReturnKey();
-    string ReturnValue();
+    BSTNode *GetLeft();
+    BSTNode *GetRight();
+    void SetLeft(BSTNode *node);
+    void SetRight(BSTNode *node);
+    string GetKey();
+    string GetValue();
 };
 
 
 class BST {
-public:
+private:
    BSTNode *root;
 public:
     BST();
+    void BSTsetRoot(BSTNode *node);
+    BSTNode *BSTgetRoot();
     void BSTadd(string key, string value);
-    void BSTPrint();
+    void BSTPrint(BSTNode *node);
+    BSTNode *BSTlookup(string key);
 };
 #endif //TRANSLETE_TREE_H

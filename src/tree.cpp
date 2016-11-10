@@ -8,47 +8,98 @@ BSTNode::BSTNode(string key, string value)
 {
     this->key = key;
     this->value = value;
+    this->left = this->right = NULL;
 }
 
-string BSTNode::ReturnKey()
+string BSTNode::GetKey()
 {
-    return  this->key;
+    return (std::__cxx11::string) this->key;
 }
 
-string BSTNode::ReturnValue()
+string BSTNode::GetValue()
 {
-    return this->value;
+    return (std::__cxx11::string) this->value;
+}
+
+BSTNode *BSTNode::GetLeft()
+{
+    return this->left;
+}
+
+BSTNode *BSTNode::GetRight()
+{
+    return this->right;
+}
+
+void BSTNode::SetLeft(BSTNode *node)
+{
+    this->left = node;
+}
+
+void BSTNode::SetRight(BSTNode *node) {
+    this->right = node;
 }
 
 
 BST::BST()
 {
-    this->root = NULL;
+    this->BSTsetRoot(NULL);
 }
 
 void BST::BSTadd(string key, string value)
 {
-    if (this->root == NULL) {
-        this->root = new BSTNode(key, value);
+    if (this->BSTgetRoot() == NULL) {
+        this->BSTsetRoot(new BSTNode(key, value));
         return;
     }
-    BSTNode *tmp;
-    for(tmp = this->root; tmp != NULL;) {
-        if (key < tmp->key)
-            if (tmp->left == NULL)
-                tmp->left = new BSTNode(key, value);
-            else
-                tmp = tmp->left;
+    BSTNode *tmp, *parent;
+    tmp = parent = this->BSTgetRoot();
+    for(; tmp != NULL;) {
+        parent = tmp;
+        if (key.compare(tmp->GetKey()) < 0)
+                tmp = tmp->GetLeft();
         else
-            if (tmp->right == NULL)
-                tmp->right = new BSTNode(key, value);
-            else
-                tmp = tmp->right;
+                tmp = tmp->GetRight();
+    }
+    if (key.compare(parent->GetKey()) < 0) {
+        parent->SetLeft(new BSTNode(key, value));
+    }
+    else {
+        parent->SetRight(new BSTNode(key, value));
     }
 }
 
-void BST::BSTPrint()
+void BST::BSTPrint(BSTNode *node)
 {
-    cout << this->root->ReturnKey() << endl;
-    cout << this->root->ReturnValue() << endl;
+    if (node == NULL)
+        return;
+    cout << "key: " << node->GetKey() << endl;
+    cout << "value: " << node->GetValue() << endl;
+    BST::BSTPrint(node->GetLeft());
+    BST::BSTPrint(node->GetRight());
+}
+
+BSTNode *BST::BSTlookup(string key) {
+    BSTNode *node = NULL;
+    for (node = this->BSTgetRoot(); node != NULL;) {
+        if (key.compare(node->GetKey()) == 0) {
+            return node;
+        }
+        else if (key.compare(node->GetKey()) < 0) {
+            node = node->GetLeft();
+        }
+        else {
+            node = node->GetRight();
+        }
+    }
+    cout << "Key: \"" << key << "\" not found!" << endl;
+    return node;
+}
+
+BSTNode *BST::BSTgetRoot() {
+    return this->root;
+}
+
+void BST::BSTsetRoot(BSTNode *node) {
+    this->root = node;
 }
