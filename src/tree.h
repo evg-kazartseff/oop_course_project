@@ -1,41 +1,31 @@
 //
-// Created by jonn on 03.11.16.
+// Created by jonn on 20.11.16.
 //
 
 #ifndef TRANSLETE_TREE_H
 #define TRANSLETE_TREE_H
 
-using namespace std;
-
 #include <string>
 
-class BSTNode {
+using namespace std;
+
+class Node {
 private:
     string key;
     string value;
-    BSTNode *left;
-    BSTNode *right;
 public:
-    BSTNode() : key("") , value(""), left(NULL), right(NULL) {};
-    BSTNode(string key, string value);
-    BSTNode *GetLeft();
-    BSTNode *GetRight();
-    void SetLeft(BSTNode *node);
-    void SetRight(BSTNode *node);
+    Node() : key(""), value("") {};
+    void SetKey(string key);
+    void SetValue(string value);
     string GetKey();
     string GetValue();
 };
 
-
-class BST {
-private:
-   BSTNode *root;
+class Tree {
 public:
-    BST();
-    void BSTsetRoot(BSTNode *node);
-    BSTNode *BSTgetRoot();
-    void BSTadd(string key, string value);
-    void BSTPrint(BSTNode *node);
-    BSTNode *BSTlookup(string key);
+    virtual void Tadd(string, string) = 0;
+    virtual void Tdelete(string) = 0;
 };
+
+
 #endif //TRANSLETE_TREE_H
